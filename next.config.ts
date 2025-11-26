@@ -82,9 +82,25 @@ export default async function config(
           pathname: "/**",
         },
       ],
+      // تحسينات الصور
+      formats: ["image/avif", "image/webp"],
+      minimumCacheTTL: 60,
+      deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+      imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     },
 
     reactStrictMode: true,
+    
+    // تحسينات الأداء
+    compress: true,
+    poweredByHeader: false,
+    
+    // تحسين Bundle
+    swcMinify: true,
+    
+    // تحسين Production Build
+    productionBrowserSourceMaps: false,
+    
     turbo: {
       rules: {
         "*.svg": {
@@ -93,13 +109,29 @@ export default async function config(
         },
       },
     },
+    
     experimental: {
       authInterrupts: true,
+      // تحسين الأداء
+      optimizePackageImports: [
+        "@/components",
+        "@/utils",
+        "lucide-react",
+        "@radix-ui/react-icons",
+      ],
+      // تحسين Server Actions
+      serverActions: {
+        bodySizeLimit: "2mb",
+      },
     },
+    
     eslint: {
       ignoreDuringBuilds: true,
     },
+    
+    // Webpack optimizations removed - using Next.js defaults for better compatibility
   };
+  
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     // If you want to use sentry, uncomment the following line
     // nextConfig.sentry = {
